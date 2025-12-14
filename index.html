@@ -16,7 +16,7 @@
         }
         .knit-calculator-container {
             padding: 5px; 
-            background-color: #f9f9f9;
+            background-color: #333333; /* 변경: 다크 배경 */
             border-radius: 8px; 
             max-width: 170px; 
             box-sizing: border-box;
@@ -29,13 +29,13 @@
             margin-bottom: 8px;
             border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* 어두운 배경에 맞게 그림자 조정 */
         }
         .knit-tab-btn {
             flex-grow: 1;
             padding: 8px 3px; 
-            background-color: #e0e0e0;
-            color: #555;
+            background-color: #555555; /* 변경: 비활성 어두운 회색 */
+            color: #ccc; /* 텍스트 색상 밝게 */
             border: none;
             cursor: pointer;
             font-size: 0.7em;
@@ -44,10 +44,10 @@
             text-align: center;
         }
         .knit-tab-btn:hover {
-            background-color: #d0d0d0;
+            background-color: #666666;
         }
         .knit-tab-btn.active {
-            background-color: #ff9900;
+            background-color: #03C75A; /* 변경: 네이버 그린 */
             color: white;
         }
 
@@ -61,38 +61,146 @@
 
         /* 개별 계산기 스타일 */
         .knit-calculator {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
+            background-color: #444444; /* 변경: 내부 다크 배경 */
+            border: 1px solid #555555; /* 경계선도 어둡게 */
             border-radius: 6px; 
             padding: 10px; 
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 일반 텍스트 색상 조정 (어두운 배경에 맞게 기본 텍스트를 밝게) */
+        .knit-input-group label, 
+        .knit-result-label, 
+        .knit-result h3 {
+            color: #f0f0f0; /* 변경: 밝은 색 */
+        }
+        .knit-result-text {
+            color: #dddddd; /* 변경: 밝은 색 */
         }
 
-        /* 기타 요소 스타일 (이전 위젯 최적화 CSS와 동일하게 유지) */
-        .knit-calculator-header {
-            display: none; /* 탭 메뉴에 제목 포함되어 헤더 숨김 */
-        }
-        .knit-subtitle { display: none; }
-        .knit-input-group { margin-bottom: 8px; }
-        .knit-input-group label { font-weight: bold; margin-bottom: 3px; font-size: 0.75em; }
+        /* 입력창 스타일 */
         .knit-input-group input[type="number"] {
-            padding: 5px; border-radius: 4px; font-size: 0.9em; width: 90%; box-sizing: border-box;
+            padding: 5px; 
+            border: 1px solid #666; /* 어두운 테두리 */
+            border-radius: 4px;
+            font-size: 0.9em; 
+            width: 90%; 
+            box-sizing: border-box;
+            background-color: #555555; /* 입력창 배경도 어둡게 */
+            color: #ffffff; /* 입력된 텍스트는 흰색으로 */
         }
-        .knit-btn { width: 100%; padding: 8px; background-color: #ff9900; font-size: 0.9em; margin-top: 5px; }
-        .knit-result { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd; display: none; }
-        .knit-result.show { display: block; }
-        .knit-result h3 { font-size: 1.0em; margin-bottom: 8px; }
+
+        .knit-input-group input[type="number"]:focus {
+            border-color: #03C75A; /* 포커스 시 네이버 그린 */
+            outline: none;
+        }
+
+        /* 버튼 스타일 */
+        .knit-btn {
+            width: 100%;
+            padding: 8px; 
+            background-color: #03C75A; /* 변경: 네이버 그린 */
+            color: white;
+            border: none;
+            border-radius: 4px; 
+            font-size: 0.9em; 
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+        }
+
+        .knit-btn:hover {
+            background-color: #00B74A; /* 변경: 호버 시 약간 어두운 그린 */
+        }
+
+        /* 결과 섹션 스타일 */
+        .knit-result {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #666; /* 경계선도 어둡게 */
+            display: none;
+        }
+
         .knit-result-item { padding: 4px 0; font-size: 0.8em; }
-        .knit-result-label { flex-basis: 50%; }
-        .knit-result-value { font-size: 0.9em; flex-basis: 50%; }
-        .knit-instruction-container { margin-top: 10px; padding: 8px; border-radius: 6px; }
-        .knit-instruction-header { font-size: 0.9em; padding-bottom: 3px; }
-        .knit-result-text { font-size: 0.8em; }
-        .knit-table th, .knit-table td { padding: 4px; font-size: 0.8em; }
-        .knit-footer { display: none; }
-        .knit-error { padding: 5px; font-size: 0.75em; display: none; }
+
+        .knit-result-value {
+            font-weight: bold;
+            color: #03C75A; /* 변경: 네이버 그린 */
+            font-size: 0.9em;
+            flex-basis: 50%;
+        }
+
+        /* 상세 설명 컨테이너 스타일 */
+        .knit-instruction-container {
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #00B74A; /* 그린 경계선 */
+            border-radius: 6px;
+            background-color: #405040; /* 어두운 그린 배경 */
+        }
+        
+        .knit-instruction-header {
+            font-size: 0.9em;
+            padding-bottom: 3px;
+            color: #03C75A; /* 헤더 텍스트 그린 */
+            border-bottom: 1px dashed #00B74A;
+        }
+        
+        /* 파란색 계열 강조 컨테이너 (결과 상세) */
+        .knit-instruction-container[style*="#3498db"] {
+            border-color:#5a9fd6 !important; 
+            background-color:#404055 !important;
+        }
+        .knit-instruction-container[style*="#3498db"] .knit-instruction-header {
+            color:#8cb4e6 !important; 
+            border-bottom-color:#5a9fd6 !important;
+        }
+        
+        /* 에러 메시지 스타일 */
+        .knit-error {
+            color: #e74c3c; 
+            padding: 5px;
+            background-color: #503d3c; 
+            border: 1px solid #c0392b; 
+            border-radius: 4px;
+            display: none;
+            font-size: 0.75em;
+        }
         .knit-error.show { display: block; }
+
+        /* 테이블 스타일 */
+        .knit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5px 0 0 0;
+            font-size: 0.8em;
+        }
+
+        .knit-table th, .knit-table td {
+            padding: 4px;
+            text-align: center;
+            border: 1px solid #666; /* 테이블 경계선 */
+            color: #dddddd;
+        }
+
+        .knit-table th {
+            background-color: #555555;
+            color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .knit-table tr:nth-child(even) {
+            background-color: #444444;
+        }
+        
+        /* 기타 요소 스타일 */
+        .knit-subtitle { display: none; }
+        .knit-footer { display: none; }
+        .knit-calculator-header { display: none; }
+        .knit-result-label { flex-basis: 50%; }
         .knit-result-text ul, .knit-result-text li { font-size: 0.8em !important; }
+
     </style>
 </head>
 <body>
@@ -131,7 +239,7 @@
                 <div class="knit-result-item"><div class="knit-result-label">총 줄여야 할 코 수</div><div id="decrease2" class="knit-result-value"></div></div>
                 <div class="knit-result-item"><div class="knit-result-label">줄이는 방법</div><div id="pattern2" class="knit-result-value"></div></div>
                 <div class="knit-instruction-container"><div class="knit-instruction-header">뜨는 방법 상세</div><div id="instruction2" class="knit-result-text"></div></div>
-                <div class="knit-instruction-container" style="border-color:#3498db; background-color:#e6f3ff;"><div class="knit-instruction-header" style="color:#3498db; border-bottom-color:#3498db;">줄임 패턴 상세</div><div id="detail2" class="knit-result-text"></div></div>
+                <div class="knit-instruction-container" style="border-color:#5a9fd6; background-color:#404055;"><div class="knit-instruction-header" style="color:#8cb4e6; border-bottom-color:#5a9fd6;">줄임 패턴 상세</div><div id="detail2" class="knit-result-text"></div></div>
             </div>
         </div>
     </div>
@@ -149,50 +257,41 @@
                 <div class="knit-result-item"><div class="knit-result-label">각 쪽에서 줄임</div><div id="eachSide" class="knit-result-value"></div></div>
                 <div class="knit-result-item"><div class="knit-result-label">줄이는 방법</div><div id="pattern3" class="knit-result-value"></div></div>
                 <div class="knit-instruction-container"><div class="knit-instruction-header">뜨는 방법 상세</div><div id="instruction3" class="knit-result-text"></div></div>
-                <div class="knit-instruction-container" style="border-color:#3498db; background-color:#e6f3ff;"><div class="knit-instruction-header" style="color:#3498db; border-bottom-color:#3498db;">줄임 패턴 상세</div><div id="detail3" class="knit-result-text"></div></div>
+                <div class="knit-instruction-container" style="border-color:#5a9fd6; background-color:#404055;"><div class="knit-instruction-header" style="color:#8cb4e6; border-bottom-color:#5a9fd6;">줄임 패턴 상세</div><div id="detail3" class="knit-result-text"></div></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // 탭 기능 구현 (추가된 부분)
+    // 탭 기능 구현 
     function openTab(evt, tabName) {
         let i, tabcontent, tablinks;
 
-        // 모든 탭 콘텐츠 숨기기
         tabcontent = document.getElementsByClassName("knit-tab-content");
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].classList.remove('active');
-            // 탭 변경 시 결과 숨김 (깔끔하게 시작)
             const resultElement = tabcontent[i].querySelector('.knit-result');
             if (resultElement) resultElement.classList.remove('show');
-            // 탭 변경 시 에러 숨김
             const errorElement = tabcontent[i].querySelector('.knit-error');
             if (errorElement) errorElement.classList.remove('show');
         }
 
-        // 모든 탭 버튼에서 active 클래스 제거
         tablinks = document.getElementsByClassName("knit-tab-btn");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove('active');
         }
 
-        // 현재 탭 콘텐츠를 표시하고, 버튼에 active 클래스 추가
         document.getElementById(tabName).classList.add('active');
         if (evt) evt.currentTarget.classList.add('active');
     }
 
-    // 페이지 로드 시 첫 번째 탭 활성화
     document.addEventListener('DOMContentLoaded', (event) => {
-        // 초기 로드 시 탭1 활성화
         openTab(null, 'calc1');
     });
 
+    // --- 기존 계산 로직 ---
 
-    // --- 기존 계산 로직 (수정 없음) ---
-
-    // 계산기 1: 한 단에서 줄이기 
     function calculateSingleRow() {
         const current = parseInt(document.getElementById('current1').value);
         const target = parseInt(document.getElementById('target1').value);
@@ -259,7 +358,6 @@
         result.classList.add('show');
     }
 
-    // 계산기 2: 여러 단에 걸쳐 줄이기 
     function calculateMultiRow() {
         const current = parseInt(document.getElementById('current2').value);
         const target = parseInt(document.getElementById('target2').value);
@@ -295,144 +393,4 @@
         
         if (baseInterval === 0) {
             document.getElementById('pattern2').textContent = `매 단 줄이기`;
-            document.getElementById('instruction2').innerHTML = `매 단 **1코씩** 줄이세요.`;
-            document.getElementById('detail2').innerHTML = `<ul><li>줄임 횟수(${totalDecrease}회) > 단 수(${rows}단)</li></ul>`;
-        } else if (extraRows === 0) {
-            const shorterInterval = baseInterval;
-            document.getElementById('pattern2').textContent = `${baseInterval}단마다 줄이기`;
-            document.getElementById('instruction2').innerHTML = `
-                ${baseInterval}단마다 **1코씩 줄이기를** <strong>총 ${totalDecrease}회</strong> 반복하세요.
-            `;
-            document.getElementById('detail2').innerHTML = `
-                <table class="knit-table">
-                    <tr><th>간격</th><th>횟수</th></tr>
-                    <tr><td>${baseInterval}단</td><td>${totalDecrease}회</td></tr>
-                </table>
-            `;
-        } else {
-            const shorterInterval = baseInterval;
-            const longerInterval = baseInterval + 1;
-            const longerCount = extraRows;
-            const shorterCount = totalDecrease - longerCount;
-            
-            document.getElementById('pattern2').textContent =
-                `${shorterInterval}단/${shorterCount}회, ${longerInterval}단/${longerCount}회`;
-            document.getElementById('instruction2').innerHTML =
-                `총 ${totalDecrease}번의 **1코 줄임을** ${shorterInterval}단 간격과 ${longerInterval}단 간격으로 분배합니다.`;
-                
-            document.getElementById('detail2').innerHTML = `
-                <table class="knit-table">
-                    <tr><th>간격</th><th>횟수</th></tr>
-                    <tr><td>${shorterInterval}단</td><td>${shorterCount}회</td></tr>
-                    <tr><td>${longerInterval}단</td><td>${longerCount}회</td></tr>
-                </table>
-            `;
-        }
-
-        result.classList.add('show');
-    }
-
-    // 계산기 3: 양쪽 줄이기 
-    function calculateBothSides() {
-        const current = parseInt(document.getElementById('current3').value);
-        const target = parseInt(document.getElementById('target3').value);
-        const rows = parseInt(document.getElementById('rows3').value);
-        const error = document.getElementById('error3');
-        const result = document.getElementById('result3');
-
-        error.classList.remove('show');
-        error.textContent = '오류 메시지';
-
-        if (!current || !target || !rows) { return; }
-
-        if (target >= current) {
-            error.textContent = '목표 코 수는 현재 코 수보다 작아야 합니다.';
-            error.classList.add('show');
-            result.classList.remove('show');
-            return;
-        }
-
-        const totalDecrease = current - target;
-
-        if (totalDecrease % 2 !== 0) {
-            error.textContent = '양쪽 줄이기는 짝수 코만 가능합니다.';
-            error.classList.add('show');
-            result.classList.remove('show');
-            return;
-        }
-
-        const eachSideDecrease = totalDecrease / 2;
-
-        if (eachSideDecrease > rows) {
-            error.textContent = '진행 단 수가 너무 적습니다.';
-            error.classList.add('show');
-            result.classList.remove('show');
-            return;
-        }
-
-        document.getElementById('decrease3').textContent = `${totalDecrease}코`;
-        document.getElementById('eachSide').textContent = `${eachSideDecrease}코`;
-
-        const baseInterval = Math.floor(rows / eachSideDecrease);
-        const extraRows = rows % eachSideDecrease;
-        
-        if (baseInterval === 0) {
-            document.getElementById('pattern3').textContent = `매 단 줄이기`;
-            document.getElementById('instruction3').innerHTML = `매 단마다 양 끝에서 1코씩 줄여야 합니다.`;
-            document.getElementById('detail3').innerHTML = `<ul><li>총 ${eachSideDecrease}회 줄임이 필요합니다.</li></ul>`;
-        } else if (extraRows === 0) {
-            const shorterInterval = baseInterval;
-            document.getElementById('pattern3').textContent = `${baseInterval}단마다 줄이기`;
-            document.getElementById('instruction3').innerHTML = `
-                ${baseInterval}단마다 양 끝에서 1코씩 줄이기를 <strong>총 ${eachSideDecrease}회</strong> 반복하세요.
-            `;
-            document.getElementById('detail3').innerHTML = `
-                <table class="knit-table">
-                    <tr><th>간격</th><th>횟수</th></tr>
-                    <tr><td>${baseInterval}단</td><td>${eachSideDecrease}회</td></tr>
-                </table>
-            `;
-        } else {
-            const shorterInterval = baseInterval;
-            const longerInterval = baseInterval + 1;
-            const longerCount = extraRows;
-            const shorterCount = eachSideDecrease - longerCount;
-            
-            document.getElementById('pattern3').textContent =
-                `${shorterInterval}단/${shorterCount}회, ${longerInterval}단/${longerCount}회`;
-            document.getElementById('instruction3').innerHTML =
-                `양 끝 줄이기: 각 쪽에서 ${eachSideDecrease}코를 ${shorterInterval}단 또는 ${longerInterval}단 간격으로 줄입니다.`;
-            
-            document.getElementById('detail3').innerHTML = `
-                <table class="knit-table">
-                    <tr><th>간격</th><th>횟수</th></tr>
-                    <tr><td>${shorterInterval}단</td><td>${shorterCount}회</td></tr>
-                    <tr><td>${longerInterval}단</td><td>${longerCount}회</td></tr>
-                </table>
-            `;
-        }
-
-        result.classList.add('show');
-    }
-
-    // Enter 키 이벤트 (탭이동 시에도 작동하도록)
-    ['current1', 'target1'].forEach(id => {
-        document.getElementById(id).addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateSingleRow();
-        });
-    });
-
-    ['current2', 'target2', 'rows'].forEach(id => {
-        document.getElementById(id).addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateMultiRow();
-        });
-    });
-
-    ['current3', 'target3', 'rows3'].forEach(id => {
-        document.getElementById(id).addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateBothSides();
-        });
-    });
-</script>
-</body>
-</html>
+            document.getElementById('instruction2').innerHTML
