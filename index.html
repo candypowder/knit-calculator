@@ -179,4 +179,373 @@
             padding: 4px;
             text-align: center;
             border: 1px solid #666; 
-            color: #
+            color: #dddddd;
+        }
+
+        .knit-table th {
+            background-color: #555555;
+            color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .knit-table tr:nth-child(even) {
+            background-color: #444444;
+        }
+        
+        /* 기타 요소 스타일 */
+        .knit-subtitle { display: none; }
+        .knit-footer { display: none; }
+        .knit-calculator-header { display: none; }
+        .knit-result-label { flex-basis: 50%; }
+        .knit-result-text ul, .knit-result-text li { font-size: 0.8em !important; }
+
+    </style>
+</head>
+<body>
+
+<div class="knit-calculator-container">
+    <div class="knit-tab-menu">
+        <button class="knit-tab-btn active" onclick="openTab(event, 'calc1')">1단 줄이기</button>
+        <button class="knit-tab-btn" onclick="openTab(event, 'calc2')">여러 단</button>
+        <button class="knit-tab-btn" onclick="openTab(event, 'calc3')">양쪽 줄이기</button>
+    </div>
+
+    <div id="calc1" class="knit-tab-content active">
+        <div class="knit-calculator">
+            <div class="knit-input-group"><label for="current1">현재 코 수</label> <input id="current1" min="1" type="number" placeholder="예: 108" /></div>
+            <div class="knit-input-group"><label for="target1">목표 코 수</label> <input id="target1" min="1" type="number" placeholder="예: 96" /></div>
+            <div id="error1" class="knit-error">오류 메시지</div>
+            <button class="knit-btn" onclick="calculateSingleRow()">계산하기</button>
+            <div id="result1" class="knit-result">
+                <h3>📊 결과</h3>
+                <div class="knit-result-item"><div class="knit-result-label">줄여야 할 코 수</div><div id="decrease1" class="knit-result-value"></div></div>
+                <div class="knit-result-item"><div class="knit-result-label">뜨는 방법</div><div id="pattern1" class="knit-result-value"></div></div>
+                <div class="knit-instruction-container"><div class="knit-instruction-header">상세</div><div id="instruction1" class="knit-result-text"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="calc2" class="knit-tab-content">
+        <div class="knit-calculator">
+            <div class="knit-input-group"><label for="current2">현재 코 수</label> <input id="current2" min="1" type="number" placeholder="예: 108" /></div>
+            <div class="knit-input-group"><label for="target2">목표 코 수</label> <input id="target2" min="1" type="number" placeholder="예: 70" /></div>
+            <div class="knit-input-group"><label for="rows">진행 단 수</label> <input id="rows" min="1" type="number" placeholder="예: 30" /></div>
+            <div id="error2" class="knit-error">오류 메시지</div>
+            <button class="knit-btn" onclick="calculateMultiRow()">계산하기</button>
+            <div id="result2" class="knit-result">
+                <h3>📊 결과</h3>
+                <div class="knit-result-item"><div class="knit-result-label">총 줄여야 할 코 수</div><div id="decrease2" class="knit-result-value"></div></div>
+                <div class="knit-result-item"><div class="knit-result-label">줄이는 방법</div><div id="pattern2" class="knit-result-value"></div></div>
+                <div class="knit-instruction-container"><div class="knit-instruction-header">뜨는 방법 상세</div><div id="instruction2" class="knit-result-text"></div></div>
+                <div class="knit-instruction-container" style="border-color:#5a9fd6; background-color:#404055;"><div class="knit-instruction-header" style="color:#8cb4e6; border-bottom-color:#5a9fd6;">줄임 패턴 상세</div><div id="detail2" class="knit-result-text"></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="calc3" class="knit-tab-content">
+        <div class="knit-calculator">
+            <div class="knit-input-group"><label for="current3">현재 코 수</label> <input id="current3" min="1" type="number" placeholder="예: 60" /></div>
+            <div class="knit-input-group"><label for="target3">목표 코 수</label> <input id="target3" min="1" type="number" placeholder="예: 30" /></div>
+            <div class="knit-input-group"><label for="rows3">진행 단 수</label> <input id="rows3" min="1" type="number" placeholder="예: 20" /></div>
+            <div id="error3" class="knit-error">오류 메시지</div>
+            <button class="knit-btn" onclick="calculateBothSides()">계산하기</button>
+            <div id="result3" class="knit-result">
+                <h3>📊 결과</h3>
+                <div class="knit-result-item"><div class="knit-result-label">총 줄여야 할 코 수</div><div id="decrease3" class="knit-result-value"></div></div>
+                <div class="knit-result-item"><div class="knit-result-label">각 쪽에서 줄임</div><div id="eachSide" class="knit-result-value"></div></div>
+                <div class="knit-result-item"><div class="knit-result-label">줄이는 방법</div><div id="pattern3" class="knit-result-value"></div></div>
+                <div class="knit-instruction-container"><div class="knit-instruction-header">뜨는 방법 상세</div><div id="instruction3" class="knit-result-text"></div></div>
+                <div class="knit-instruction-container" style="border-color:#5a9fd6; background-color:#404055;"><div class="knit-instruction-header" style="color:#8cb4e6; border-bottom-color:#5a9fd6;">줄임 패턴 상세</div><div id="detail3" class="knit-result-text"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 탭 기능 구현 (개선된 로직)
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+
+        // 1. 모든 탭 콘텐츠 숨기기 및 결과/에러 초기화
+        tabcontent = document.getElementsByClassName("knit-tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove('active');
+            
+            // **핵심 수정: 숨길 때 결과와 에러도 확실히 숨김**
+            const resultElement = tabcontent[i].querySelector('.knit-result');
+            if (resultElement) resultElement.classList.remove('show');
+            const errorElement = tabcontent[i].querySelector('.knit-error');
+            if (errorElement) errorElement.classList.remove('show');
+        }
+
+        // 2. 모든 탭 버튼에서 active 클래스 제거
+        tablinks = document.getElementsByClassName("knit-tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove('active');
+        }
+
+        // 3. 현재 탭 콘텐츠를 표시하고, 버튼에 active 클래스 추가
+        const currentTabContent = document.getElementById(tabName);
+        if (currentTabContent) {
+            currentTabContent.classList.add('active');
+        }
+        
+        // **이벤트가 있을 때만 버튼에 active 클래스 추가 (안전성 강화)**
+        if (evt && evt.currentTarget) {
+            evt.currentTarget.classList.add('active');
+        }
+    }
+
+    // 페이지 로드 시 첫 번째 탭 활성화 (DOM이 로드된 후에 실행)
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // 초기 로드 시 탭1 활성화
+        openTab(null, 'calc1');
+    });
+
+
+    // --- 기존 계산 로직 (탭 초기화 로직 보강) ---
+
+    function calculateSingleRow() {
+        // ... (계산 로직 유지) ...
+        const current = parseInt(document.getElementById('current1').value);
+        const target = parseInt(document.getElementById('target1').value);
+        const error = document.getElementById('error1');
+        const result = document.getElementById('result1');
+
+        error.classList.remove('show');
+        error.textContent = '오류 메시지'; 
+
+        if (!current || !target) { return; }
+
+        if (target >= current) {
+            error.textContent = '목표 코 수는 현재 코 수보다 작아야 합니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        const decrease = current - target; 
+        
+        if (decrease > current / 2) {
+            error.textContent = '줄여야 할 코 수가 현재 코 수의 절반을 초과합니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        const basePatternStitches = Math.floor(current / decrease);
+        const extraStitches = current % decrease; 
+
+        document.getElementById('decrease1').textContent = `${decrease}코`;
+
+        if (extraStitches === 0) {
+            const stitchesBeforeDecrease = basePatternStitches - 2; 
+            const patternText = stitchesBeforeDecrease === 0 
+                ? `2코 모아뜨기` 
+                : `${stitchesBeforeDecrease}코 뜨기 + 2코 모아뜨기`;
+
+            document.getElementById('pattern1').textContent = patternText;
+            document.getElementById('instruction1').textContent =
+                `${patternText}를 ${decrease}회 반복하여 총 ${decrease}코를 줄입니다.`;
+                
+        } else {
+            const shorterStitches = basePatternStitches - 2; 
+            const longerStitches = basePatternStitches + 1 - 2; 
+            
+            const longerCount = extraStitches; 
+            const shorterCount = decrease - longerCount; 
+
+            const shorterPatternText = shorterStitches <= 0 
+                ? `2코 모아뜨기` 
+                : `${shorterStitches}코 뜨기 + 2코 모아뜨기`;
+            const longerPatternText = longerStitches <= 0
+                ? `2코 모아뜨기`
+                : `${longerStitches}코 뜨기 + 2코 모아뜨기`;
+            
+            document.getElementById('pattern1').textContent =
+                `${shorterCount}회 / ${longerCount}회`;
+                
+            document.getElementById('instruction1').textContent =
+                `패턴 1: ${shorterPatternText} (${shorterCount}회) | 패턴 2: ${longerPatternText} (${longerCount}회)`;
+        }
+
+        result.classList.add('show');
+    }
+
+    function calculateMultiRow() {
+        // ... (계산 로직 유지) ...
+        const current = parseInt(document.getElementById('current2').value);
+        const target = parseInt(document.getElementById('target2').value);
+        const rows = parseInt(document.getElementById('rows').value);
+        const error = document.getElementById('error2');
+        const result = document.getElementById('result2');
+
+        error.classList.remove('show');
+        error.textContent = '오류 메시지'; 
+
+        if (!current || !target || !rows) { return; }
+
+        if (target >= current) {
+            error.textContent = '목표 코 수는 현재 코 수보다 작아야 합니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        const totalDecrease = current - target;
+
+        if (totalDecrease > rows * 2) {
+            error.textContent = '진행 단 수가 너무 적습니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        document.getElementById('decrease2').textContent = `${totalDecrease}코`;
+
+        const baseInterval = Math.floor(rows / totalDecrease);
+        const extraRows = rows % totalDecrease;
+        
+        if (baseInterval === 0) {
+            document.getElementById('pattern2').textContent = `매 단 줄이기`;
+            document.getElementById('instruction2').innerHTML = `매 단 **1코씩** 줄이세요.`;
+            document.getElementById('detail2').innerHTML = `<ul><li>줄임 횟수(${totalDecrease}회) > 단 수(${rows}단)</li></ul>`;
+        } else if (extraRows === 0) {
+            const shorterInterval = baseInterval;
+            document.getElementById('pattern2').textContent = `${baseInterval}단마다 줄이기`;
+            document.getElementById('instruction2').innerHTML = `
+                ${baseInterval}단마다 **1코씩 줄이기를** <strong>총 ${totalDecrease}회</strong> 반복하세요.
+            `;
+            document.getElementById('detail2').innerHTML = `
+                <table class="knit-table">
+                    <tr><th>간격</th><th>횟수</th></tr>
+                    <tr><td>${baseInterval}단</td><td>${totalDecrease}회</td></tr>
+                </table>
+            `;
+        } else {
+            const shorterInterval = baseInterval;
+            const longerInterval = baseInterval + 1;
+            const longerCount = extraRows;
+            const shorterCount = totalDecrease - longerCount;
+            
+            document.getElementById('pattern2').textContent =
+                `${shorterInterval}단/${shorterCount}회, ${longerInterval}단/${longerCount}회`;
+            document.getElementById('instruction2').innerHTML =
+                `총 ${totalDecrease}번의 **1코 줄임을** ${shorterInterval}단 간격과 ${longerInterval}단 간격으로 분배합니다.`;
+                
+            document.getElementById('detail2').innerHTML = `
+                <table class="knit-table">
+                    <tr><th>간격</th><th>횟수</th></tr>
+                    <tr><td>${shorterInterval}단</td><td>${shorterCount}회</td></tr>
+                    <tr><td>${longerInterval}단</td><td>${longerCount}회</td></tr>
+                </table>
+            `;
+        }
+
+        result.classList.add('show');
+    }
+
+    function calculateBothSides() {
+        // ... (계산 로직 유지) ...
+        const current = parseInt(document.getElementById('current3').value);
+        const target = parseInt(document.getElementById('target3').value);
+        const rows = parseInt(document.getElementById('rows3').value);
+        const error = document.getElementById('error3');
+        const result = document.getElementById('result3');
+
+        error.classList.remove('show');
+        error.textContent = '오류 메시지';
+
+        if (!current || !target || !rows) { return; }
+
+        if (target >= current) {
+            error.textContent = '목표 코 수는 현재 코 수보다 작아야 합니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        const totalDecrease = current - target;
+
+        if (totalDecrease % 2 !== 0) {
+            error.textContent = '양쪽 줄이기는 짝수 코만 가능합니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        const eachSideDecrease = totalDecrease / 2;
+
+        if (eachSideDecrease > rows) {
+            error.textContent = '진행 단 수가 너무 적습니다.';
+            error.classList.add('show');
+            result.classList.remove('show');
+            return;
+        }
+
+        document.getElementById('decrease3').textContent = `${totalDecrease}코`;
+        document.getElementById('eachSide').textContent = `${eachSideDecrease}코`;
+
+        const baseInterval = Math.floor(rows / eachSideDecrease);
+        const extraRows = rows % eachSideDecrease;
+        
+        if (baseInterval === 0) {
+            document.getElementById('pattern3').textContent = `매 단 줄이기`;
+            document.getElementById('instruction3').innerHTML = `매 단마다 양 끝에서 1코씩 줄여야 합니다.`;
+            document.getElementById('detail3').innerHTML = `<ul><li>총 ${eachSideDecrease}회 줄임이 필요합니다.</li></ul>`;
+        } else if (extraRows === 0) {
+            const shorterInterval = baseInterval;
+            document.getElementById('pattern3').textContent = `${baseInterval}단마다 줄이기`;
+            document.getElementById('instruction3').innerHTML = `
+                ${baseInterval}단마다 양 끝에서 1코씩 줄이기를 <strong>총 ${eachSideDecrease}회</strong> 반복하세요.
+            `;
+            document.getElementById('detail3').innerHTML = `
+                <table class="knit-table">
+                    <tr><th>간격</th><th>횟수</th></tr>
+                    <tr><td>${baseInterval}단</td><td>${eachSideDecrease}회</td></tr>
+                </table>
+            `;
+        } else {
+            const shorterInterval = baseInterval;
+            const longerInterval = baseInterval + 1;
+            const longerCount = extraRows;
+            const shorterCount = eachSideDecrease - longerCount;
+            
+            document.getElementById('pattern3').textContent =
+                `${shorterInterval}단/${shorterCount}회, ${longerInterval}단/${longerCount}회`;
+            document.getElementById('instruction3').innerHTML =
+                `양 끝 줄이기: 각 쪽에서 ${eachSideDecrease}코를 ${shorterInterval}단 또는 ${longerInterval}단 간격으로 줄입니다.`;
+            
+            document.getElementById('detail3').innerHTML = `
+                <table class="knit-table">
+                    <tr><th>간격</th><th>횟수</th></tr>
+                    <tr><td>${shorterInterval}단</td><td>${shorterCount}회</td></tr>
+                    <tr><td>${longerInterval}단</td><td>${longerCount}회</td></tr>
+                </table>
+            `;
+        }
+
+        result.classList.add('show');
+    }
+
+    // Enter 키 이벤트 
+    ['current1', 'target1'].forEach(id => {
+        document.getElementById(id).addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculateSingleRow();
+        });
+    });
+
+    ['current2', 'target2', 'rows'].forEach(id => {
+        document.getElementById(id).addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculateMultiRow();
+        });
+    });
+
+    ['current3', 'target3', 'rows3'].forEach(id => {
+        document.getElementById(id).addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculateBothSides();
+        });
+    });
+</script>
+</body>
+</html>
